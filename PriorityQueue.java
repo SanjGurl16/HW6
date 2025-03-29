@@ -152,7 +152,11 @@ class PriorityQueue<E, P> {
     public Node add(E e, P priority) {
 
         // YOUR CODE GOES HERE
-        return null;
+
+        Node newNode = new Node(e, priority, tree.size()); // Creates a new node with the provided element and priority
+        tree.add(newNode); // Adds it to the end of the heap
+        pullUp(tree.size() - 1); // Calls pullUp to maintain the heap structure
+        return newNode;
     }
 
 
@@ -169,6 +173,12 @@ class PriorityQueue<E, P> {
     public boolean contains(E e) {
 
         // ADD YOUR CODE HERE
+
+        for (Node node : tree) {
+            if (!node.removed && node.value.equals(e)) { // Iterates through the heap
+                return true; // Returns true if an element with the same value is found and is still valid
+            }
+        }
         return false;
     }
 
