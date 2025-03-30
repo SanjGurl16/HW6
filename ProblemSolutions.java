@@ -188,3 +188,5 @@ public class ProblemSolutions {
 
         return new ArrayList<>(pairs);  // Make sure returned lists is sorted as indicated above
     }
+
+}
