@@ -68,7 +68,27 @@ public class ProblemSolutions {
       //
       // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
       //
-      return -1;
+
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder()); // Max heap (priority queue) to store boulders in descending order
+
+      // Add all boulders to the max heap
+      for (int boulder : boulders) {
+          pq.add(boulder);
+      }
+
+      // Process until at most one boulder remains
+      while (pq.size() > 1) {
+          int y = pq.poll(); // Heaviest boulder
+          int x = pq.poll(); // Second heaviest boulder
+
+          // If the boulders are not equal, put the difference back into the heap
+          if (x != y) {
+              pq.add(y - x);
+          }
+      }
+
+      // If no boulders left, return 0; otherwise, return the last remaining boulder
+      return pq.isEmpty() ? 0 : pq.peek();
   }
 
 
@@ -94,7 +114,22 @@ public class ProblemSolutions {
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+
+        Map<String, Integer> countMap = new HashMap<>(); // HashMap to store the frequency of each string
+        TreeSet<String> duplicates = new TreeSet<>(); // TreeSet to store duplicates in sorted order
+
+        // Count occurrences of each string
+        for (String str : input) {
+            countMap.put(str, countMap.getOrDefault(str, 0) + 1);
+            
+            // If a string appears more than once, add it to the set
+            if (countMap.get(str) == 2) {
+                duplicates.add(str);
+            }
+        }
+
+        // Convert the sorted set to an ArrayList and return
+        return new ArrayList<>(duplicates);  // Make sure result is sorted in ascending order
 
     }
 
@@ -134,6 +169,22 @@ public class ProblemSolutions {
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+
+        Set<Integer> seen = new HashSet<>(); // HashSet to store numbers seen so far
+        TreeSet<String> pairs = new TreeSet<>(); // TreeSet to store pairs in sorted order
+
+        // Check each number in the array
+        for (int num : input) {
+            int complement = k - num; // The number needed to form a sum of k
+
+            // If the complement is already seen, add the pair to the set
+            if (seen.contains(complement)) {
+                int small = Math.min(num, complement);
+                int large = Math.max(num, complement);
+                pairs.add("(" + small + ", " + large + ")"); // Store pair in sorted format
+            }
+            seen.add(num); // Add current number to the seen set
+        }
+
+        return new ArrayList<>(pairs);  // Make sure returned lists is sorted as indicated above
     }
-}
